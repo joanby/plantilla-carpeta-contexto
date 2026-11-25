@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ecuaciones de segundo grado, paso a paso · Frogames</title>
+<meta name="description" content="Guía gratuita para resolver ecuaciones de segundo grado paso a paso: incompletas, fórmula general, discriminante, errores típicos y ejercicios con solución. Sin registro.">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #080708;
+    --sheet: #101317;
+    --sheet-2: #161a20;
+    --line: #232a32;
+    --text: #e9edf1;
+    --muted: #a3b0bd;
+    --accent: #449cb9;
+    --accent-text: #62b8d4;
+    --ok: #7cc79a;
+    --bad: #e08a8a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+
+  /* Cabecera */
+  header.top { padding: 56px 0 28px; }
+  .brand { color: var(--muted); font-size: 14px; letter-spacing: .02em; margin: 0 0 18px; }
+  .brand a { color: var(--muted); text-decoration: none; }
+  .brand a:hover { color: var(--accent-text); }
+  h1 { font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 0 0 14px; letter-spacing: -.01em; }
+  .lead { font-size: 19px; color: var(--muted); margin: 0; max-width: 680px; }
+  .lead strong { color: var(--text); font-weight: 600; }
+
+  /* Hojas */
+  main { padding-bottom: 40px; }
+  .sheet {
+    background: var(--sheet);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    margin: 0 0 22px;
+  }
+  @media (max-width: 560px) { .sheet { padding: 22px 18px 18px; } }
+  h2 {
+    color: var(--accent-text);
+    font-size: 24px;
+    line-height: 1.25;
+    margin: 0 0 14px;
+    scroll-margin-top: 20px;
+  }
+  h2 .n { color: var(--muted); font-weight: 500; margin-right: .35em; }
+  h3 { font-size: 18px; margin: 26px 0 8px; }
+  p { margin: 0 0 14px; }
+  a { color: var(--accent-text); }
+  a:hover { color: var(--text); }
+  ul, ol { margin: 0 0 14px; padding-left: 1.3em; }
+  li { margin: 0 0 6px; }
+  strong { font-weight: 600; }
+  .muted { color: var(--muted); }
+
+  /* Índice */
+  .toc { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
+  .toc li { margin: 0; border-top: 1px solid var(--line); }
+  .toc li:first-child { border-top: 0; }
+  .toc a { display: block; padding: 12px 0; text-decoration: none; color: var(--text); }
+  .toc a:hover .t { color: var(--accent-text); }
+  .toc .t { font-weight: 600; }
+  .toc .t::before { counter-increment: toc; content: counter(toc) ". "; color: var(--muted); font-weight: 500; }
+  .toc .d { display: block; color: var(--muted); font-size: 15px; }
+
+  /* Fórmulas */
+  .m { font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", Cambria, Georgia, "Times New Roman", serif; font-size: 1.08em; white-space: nowrap; }
+  .lead .m { white-space: normal; }
+
+  .formula {
+    background: var(--sheet-2);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 0 0 16px;
+    font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", Cambria, Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    white-space: nowrap;
+    text-align: center;
+    overflow-x: auto;
+  }
+  .formula.big { font-size: 28px; padding: 24px 20px; }
+  .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; line-height: 1.3; margin: 0 .15em; }
+  .frac > span:first-child { border-bottom: 1.5px solid currentColor; padding: 0 .3em .08em; }
+  .frac > span:last-child { padding: .08em .3em 0; }
+  .rad { border-top: 1.5px solid currentColor; padding: 0 .12em; margin-left: .04em; }
+
+  /* Pasos resueltos */
+  .steps { list-style: none; padding: 0; margin: 0 0 16px; counter-reset: step; }
+  .steps li {
+    position: relative;
+    padding: 10px 0 10px 40px;
+    border-top: 1px dashed var(--line);
+    margin: 0;
+  }
+  .steps li:first-child { border-top: 0; }
+  .steps li::before {
+    counter-increment: step;
+    content: counter(step);
+    position: absolute; left: 0; top: 10px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--sheet-2); border: 1px solid var(--line);
+    color: var(--accent-text); font-size: 13px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .steps .m { white-space: normal; }
+
+  .result {
+    display: inline-block;
+    background: rgba(68, 156, 185, .14);
+    border: 1px solid rgba(68, 156, 185, .45);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-weight: 600;
+  }
+
+  /* Tabla del discriminante */
+  .cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 16px; }
+  @media (max-width: 640px) { .cases { grid-template-columns: 1fr; } }
+  .case { background: var(--sheet-2); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .case .k { font-family: "Cambria Math", Cambria, Georgia, serif; font-size: 20px; color: var(--accent-text); }
+  .case p { margin: 4px 0 0; font-size: 15.5px; }
+
+  /* Ejemplos */
+  .example { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 18px; }
+  .example:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+  .tag { display: inline-block; font-size: 12.5px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; margin-bottom: 8px; }
+
+  /* Errores */
+  .err { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 16px; }
+  .err:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0 12px; }
+  @media (max-width: 560px) { .vs { grid-template-columns: 1fr; } }
+  .vs > div { background: var(--sheet-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; font-size: 16px; }
+  .vs .lbl { display: block; font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 2px; }
+  .vs .no .lbl { color: var(--bad); }
+  .vs .si .lbl { color: var(--ok); }
+  .vs .m { white-space: normal; }
+
+  /* Ejercicios y FAQ */
+  details { border-top: 1px solid var(--line); }
+  details:first-of-type { border-top: 0; }
+  summary {
+    cursor: pointer;
+    padding: 14px 28px 14px 0;
+    list-style: none;
+    position: relative;
+    font-weight: 600;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: "+";
+    position: absolute; right: 2px; top: 12px;
+    color: var(--accent-text); font-size: 22px; font-weight: 400; line-height: 1;
+  }
+  details[open] summary::after { content: "−"; }
+  summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  details .body { padding: 0 0 14px; color: var(--text); }
+  details .body p:last-child { margin-bottom: 0; }
+  .ex-list summary .m { font-weight: 400; }
+  .ex-list summary .hint { color: var(--muted); font-weight: 400; font-size: 14px; margin-left: .4em; }
+
+  /* Seguir */
+  .next { border-color: rgba(68, 156, 185, .45); }
+  .btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #061015;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 9px;
+    margin-top: 4px;
+  }
+  .btn:hover { background: var(--accent-text); color: #061015; }
+
+  footer { border-top: 1px solid var(--line); padding: 26px 0 44px; color: var(--muted); font-size: 14.5px; }
+  footer p { margin: 0 0 6px; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--accent-text); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <p class="brand"><a href="https://recursos.frogamesformacion.com/">Recursos de Frogames</a></p>
+    <h1>Ecuaciones de segundo grado, paso a paso</h1>
+    <p class="lead">Una guía para resolver cualquier <span class="m">ax² + bx + c = 0</span> sin equivocarte con los signos. <strong>Gratis y sin registro.</strong></p>
+  </header>
+
+  <main>
+    <section class="sheet" aria-labelledby="indice">
+      <h2 id="indice">Qué hay dentro</h2>
+      <ul class="toc">
+        <li><a href="#reconocer"><span class="t">Reconocerla</span><span class="d">Cómo saber si es de segundo grado y quién es a, b y c.</span></a></li>
+        <li><a href="#incompletas"><span class="t">Las incompletas</span><span class="d">Cuando falta b o falta c: se resuelven sin fórmula.</span></a></li>
+        <li><a href="#formula"><span class="t">La fórmula general</span><span class="d">La que sirve siempre, y cómo aplicarla en orden.</span></a></li>
+        <li><a href="#discriminante"><span class="t">El discriminante</span><span class="d">Cuántas soluciones hay, antes de terminar la cuenta.</span></a></li>
+        <li><a href="#ejemplos"><span class="t">Ejemplos resueltos</span><span class="d">Uno de cada caso, paso a paso.</span></a></li>
+        <li><a href="#errores"><span class="t">Los errores de siempre</span><span class="d">El signo de −b, el 2a a medias y el ± olvidado.</span></a></li>
+        <li><a href="#ejercicios"><span class="t">Ejercicios</span><span class="d">Ocho ecuaciones con la solución para comprobar.</span></a></li>
+        <li><a href="#preguntas"><span class="t">Preguntas frecuentes</span><span class="d">Lo que se pregunta en clase y en el examen.</span></a></li>
+      </ul>
+    </section>
+
+    <!-- 1 -->
+    <section class="sheet" aria-labelledby="reconocer">
+      <h2 id="reconocer"><span class="n">1.</span>Reconocerla</h2>
+      <p>Es de segundo grado si, una vez ordenada, la <span class="m">x</span> más alta está al cuadrado. Se escribe así:</p>
+      <div class="formula" aria-label="a x al cuadrado más b x más c igual a cero">ax² + bx + c = 0 <span class="muted" style="font-size:.7em">con a ≠ 0</span></div>
+      <ul>
+        <li><strong>a</strong> es el número que acompaña a <span class="m">x²</span>.</li>
+        <li><strong>b</strong> es el que acompaña a <span class="m">x</span>.</li>
+        <li><strong>c</strong> es el número suelto.</li>
+      </ul>
+      <p><strong>Cada uno se lleva su signo.</strong> En <span class="m">x² − 5x + 6 = 0</span> tienes <span class="m">a = 1</span>, <span class="m">b = −5</span> y <span class="m">c = 6</span>. Si no ves número delante de <span class="m">x²</span>, es un 1.</p>
+      <h3>Antes de nada: iguala a cero</h3>
+      <p>Si te dan <span class="m">x² = 5x − 6</span>, pasa todo a un lado: <span class="m">x² − 5x + 6 = 0</span>. Ahora sí puedes leer a, b y c. Leerlos sin ordenar es la forma más rápida de empezar mal.</p>
+    </section>
+
+    <!-- 2 -->
+    <section class="sheet" aria-labelledby="incompletas">
+      <h2 id="incompletas"><span class="n">2.</span>Las incompletas</h2>
+      <p>Si falta <span class="m">b</span> o falta <span class="m">c</span>, no necesitas la fórmula. Se resuelven más rápido y con menos riesgo de error.</p>
+
+      <h3>Sin b: <span class="m">ax² + c = 0</span></h3>
+      <p>Despeja <span class="m">x²</span> y haz la raíz. No olvides que salen dos: la positiva y la negativa.</p>
+      <ol class="steps">
+        <li><span class="m">2x² − 18 = 0</span></li>
+        <li><span class="m">2x² = 18</span></li>
+        <li><span class="m">x² = 9</span></li>
+        <li><span class="m">x = ±√9 = ±3</span> → <span class="result m">x = 3 y x = −3</span></li>
+      </ol>
+      <p class="muted">Si al despejar te queda <span class="m">x²</span> igual a un número negativo, no hay solución real: ningún número al cuadrado da negativo.</p>
+
+      <h3>Sin c: <span class="m">ax² + bx = 0</span></h3>
+      <p>Saca <span class="m">x</span> factor común. Un producto vale cero si alguno de los factores vale cero.</p>
+      <ol class="steps">
+        <li><span class="m">x² − 4x = 0</span></li>
+        <li><span class="m">x · (x − 4) = 0</span></li>
+        <li><span class="m">x = 0</span> o bien <span class="m">x − 4 = 0</span></li>
+        <li><span class="result m">x = 0 y x = 4</span></li>
+      </ol>
+      <p class="muted">No dividas entre <span class="m">x</span> para «simplificar»: perderías la solución <span class="m">x = 0</span>.</p>
+    </section>
+
+    <!-- 3 -->
+    <section class="sheet" aria-labelledby="formula">
+      <h2 id="formula"><span class="n">3.</span>La fórmula general</h2>
+      <p>Sirve para cualquier ecuación de segundo grado, completa o no:</p>
+      <div class="formula big" aria-label="x igual a menos b más o menos raíz de b al cuadrado menos 4 a c, todo partido por 2 a">
+        x = <span class="frac"><span>−b ± √<span class="rad">b² − 4ac</span></span><span>2a</span></span>
+      </div>
+      <p>Aplícala siempre en este orden y no te saltes pasos:</p>
+      <ol>
+        <li>Iguala a cero y apunta <strong>a, b y c con su signo</strong>.</li>
+        <li>Calcula primero el discriminante, <span class="m">b² − 4ac</span>, aparte.</li>
+        <li>Haz su raíz.</li>
+        <li>Escribe las dos soluciones por separado: una con <span class="m">+</span> y otra con <span class="m">−</span>.</li>
+      </ol>
+      <p>Separar el discriminante parece un paso de más. Es justo donde se cometen casi todos los errores de signo.</p>
+    </section>
+
+    <!-- 4 -->
+    <section class="sheet" aria-labelledby="discriminante">
+      <h2 id="discriminante"><span class="n">4.</span>El discriminante</h2>
+      <p>Es lo de dentro de la raíz: <span class="m">Δ = b² − 4ac</span>. Te dice cuántas soluciones hay <strong>antes de terminar la cuenta</strong>.</p>
+      <div class="cases">
+        <div class="case"><div class="k">Δ &gt; 0</div><p><strong>Dos soluciones</strong> distintas.</p></div>
+        <div class="case"><div class="k">Δ = 0</div><p><strong>Una solución</strong> (las dos coinciden).</p></div>
+        <div class="case"><div class="k">Δ &lt; 0</div><p><strong>Ninguna real</strong>: no existe la raíz de un negativo.</p></div>
+      </div>
+      <p>Si te sale negativo, para ahí. La respuesta es «no tiene solución real» y no hace falta seguir.</p>
+    </section>
+
+    <!-- 5 -->
+    <section class="sheet" aria-labelledby="ejemplos">
+      <h2 id="ejemplos"><span class="n">5.</span>Ejemplos resueltos</h2>
+
+      <div class="example">
+        <span class="tag">Dos soluciones</span>
+        <h3 style="margin-top:0"><span class="m">x² − 5x + 6 = 0</span></h3>
+        <ol class="steps">
+          <li><span class="m">a = 1</span>, <span class="m">b = −5</span>, <span class="m">c = 6</span></li>
+          <li><span class="m">Δ = (−5)² − 4 · 1 · 6 = 25 − 24 = 1</span> → positivo, habrá dos.</li>
+          <li><span class="m">√1 = 1</span></li>
+          <li><span class="m">x = <span class="frac"><span>5 ± 1</span><span>2</span></span></span> → <span class="m"><span class="frac"><span>6</span><span>2</span></span> = 3</span> y <span class="m"><span class="frac"><span>4</span><span>2</span></span> = 2</span></li>
+        </ol>
+        <p><span class="result m">x = 3 y x = 2</span></p>
+        <p class="muted">Fíjate en el paso 4: como <span class="m">b = −5</span>, el <span class="m">−b</span> de la fórmula es <span class="m">+5</span>.</p>
+      </div>
+
+      <div class="example">
+        <span class="tag">Dos soluciones, con a ≠ 1</span>
+        <h3 style="margin-top:0"><span class="m">2x² + 3x − 2 = 0</span></h3>
+        <ol class="steps">
+          <li><span class="m">a = 2</span>, <span class="m">b = 3</span>, <span class="m">c = −2</span></li>
+          <li><span class="m">Δ = 3² − 4 · 2 · (−2) = 9 + 16 = 25</span></li>
+          <li><span class="m">√25 = 5</span></li>
+          <li><span class="m">x = <span class="frac"><span>−3 ± 5</span><span>4</span></span></span> → <span class="m"><span class="frac"><span>2</span><span>4</span></span> = <span class="frac"><span>1</span><span>2</span></span></span> y <span class="m"><span class="frac"><span>−8</span><span>4</span></span> = −2</span></li>
+        </ol>
+        <p><span class="result m">x = 1/2 y x = −2</span></p>
+        <p class="muted">Como <span class="m">c</span> es negativo, <span class="m">−4ac</span> se convierte en una suma. Menos por menos.</p>
+      </div>
+
+      <div class="example">
+        <span class="tag">Una solución</span>
+        <h3 style="margin-top:0"><span class="m">x² − 6x + 9 = 0</span></h3>
+        <ol class="steps">
+          <li><span class="m">a = 1</span>, <span class="m">b = −6</span>, <span class="m">c = 9</span></li>
+          <li><span class="m">Δ = 36 − 36 = 0</span> → una sola solución.</li>
+          <li><span class="m">x = <span class="frac"><span>6 ± 0</span><span>2</span></span> = 3</span></li>
+        </ol>
+        <p><span class="result m">x = 3</span></p>
+      </div>
+
+      <div class="example">
+        <span class="tag">Sin solución real</span>
+        <h3 style="margin-top:0"><span class="m">x² + 2x + 5 = 0</span></h3>
+        <ol class="steps">
+          <li><span class="m">a = 1</span>, <span class="m">b = 2</span>, <span class="m">c = 5</span></li>
+          <li><span class="m">Δ = 4 − 20 = −16</span> → negativo. Paras aquí.</li>
+        </ol>
+        <p><span class="result">No tiene solución real</span></p>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="sheet" aria-labelledby="errores">
+      <h2 id="errores"><span class="n">6.</span>Los errores de siempre</h2>
+
+      <div class="err">
+        <h3 style="margin-top:0">El signo de −b cuando b ya es negativo</h3>
+        <p>Si <span class="m">b = −5</span>, entonces <span class="m">−b = +5</span>. Y <span class="m">b² = (−5)² = 25</span>, nunca −25: un cuadrado no es negativo.</p>
+        <div class="vs">
+          <div class="no"><span class="lbl">Mal</span><span class="m">x = (−5 ± 1) / 2</span></div>
+          <div class="si"><span class="lbl">Bien</span><span class="m">x = (5 ± 1) / 2</span></div>
+        </div>
+        <p class="muted">Truco: escribe <span class="m">b</span> entre paréntesis al sustituir, <span class="m">−(−5)</span> y <span class="m">(−5)²</span>, y luego opera.</p>
+      </div>
+
+      <div class="err">
+        <h3>Dividir entre 2a solo una parte</h3>
+        <p>La raya de fracción va debajo de <strong>todo</strong>: de <span class="m">−b</span> y de la raíz.</p>
+        <div class="vs">
+          <div class="no"><span class="lbl">Mal</span><span class="m">x = −3 ± 5/4</span></div>
+          <div class="si"><span class="lbl">Bien</span><span class="m">x = (−3 ± 5) / 4</span></div>
+        </div>
+      </div>
+
+      <div class="err">
+        <h3>Olvidar el ± y quedarse con una solución</h3>
+        <p>Si el discriminante es positivo, hay dos soluciones. Si das una, el ejercicio está a medias.</p>
+        <div class="vs">
+          <div class="no"><span class="lbl">Mal</span><span class="m">x = (5 + 1) / 2 = 3</span></div>
+          <div class="si"><span class="lbl">Bien</span><span class="m">x = 3 y x = 2</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="sheet" aria-labelledby="ejercicios">
+      <h2 id="ejercicios"><span class="n">7.</span>Ejercicios</h2>
+      <p>Hazlos en papel y abre la solución solo para comprobar.</p>
+      <div class="ex-list">
+        <details>
+          <summary><span class="m">x² − 16 = 0</span></summary>
+          <div class="body"><p>Incompleta sin b. <span class="m">x² = 16</span> → <span class="result m">x = 4 y x = −4</span></p></div>
+        </details>
+        <details>
+          <summary><span class="m">3x² + 12x = 0</span></summary>
+          <div class="body"><p>Incompleta sin c. <span class="m">3x · (x + 4) = 0</span> → <span class="result m">x = 0 y x = −4</span></p></div>
+        </details>
+        <details>
+          <summary><span class="m">5x² + 20 = 0</span></summary>
+          <div class="body"><p><span class="m">x² = −4</span>. Ningún número al cuadrado da negativo → <span class="result">No tiene solución real</span></p></div>
+        </details>
+        <details>
+          <summary><span class="m">x² − 7x + 10 = 0</span></summary>
+          <div class="body"><p><span class="m">Δ = 49 − 40 = 9</span>, <span class="m">√9 = 3</span>. <span class="m">x = (7 ± 3) / 2</span> → <span class="result m">x = 5 y x = 2</span></p></div>
+        </details>
+        <details>
+          <summary><span class="m">x² + 4x + 4 = 0</span></summary>
+          <div class="body"><p><span class="m">Δ = 16 − 16 = 0</span>. <span class="m">x = −4 / 2</span> → <span class="result m">x = −2</span></p></div>
+        </details>
+        <details>
+          <summary><span class="m">2x² − x − 3 = 0</span></summary>
+          <div class="body"><p><span class="m">a = 2</span>, <span class="m">b = −1</span>, <span class="m">c = −3</span>. <span class="m">Δ = 1 + 24 = 25</span>. <span class="m">x = (1 ± 5) / 4</span> → <span class="result m">x = 3/2 y x = −1</span></p></div>
+        </details>
+        <details>
+          <summary><span class="m">x² + x + 1 = 0</span></summary>
+          <div class="body"><p><span class="m">Δ = 1 − 4 = −3</span> → <span class="result">No tiene solución real</span></p></div>
+        </details>
+        <details>
+          <summary><span class="m">x² = 3x + 4</span><span class="hint">ojo, primero ordena</span></summary>
+          <div class="body"><p><span class="m">x² − 3x − 4 = 0</span>. <span class="m">Δ = 9 + 16 = 25</span>. <span class="m">x = (3 ± 5) / 2</span> → <span class="result m">x = 4 y x = −1</span></p></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sheet" aria-labelledby="preguntas">
+      <h2 id="preguntas">Preguntas frecuentes</h2>
+      <details>
+        <summary>¿Tengo que usar la fórmula siempre?</summary>
+        <div class="body"><p>No. Funciona siempre, pero en las incompletas es más lento y más fácil equivocarse. Si falta b o falta c, despeja o saca factor común. La fórmula es para cuando están los tres.</p></div>
+      </details>
+      <details>
+        <summary>¿Cómo sé si lo he hecho bien?</summary>
+        <div class="body"><p>Sustituye cada solución en la ecuación original. Con <span class="m">x = 3</span> en <span class="m">x² − 5x + 6</span>: <span class="m">9 − 15 + 6 = 0</span>. Si da cero, está bien. Comprobar cuesta treinta segundos; entregar una solución mal cuesta el ejercicio entero.</p></div>
+      </details>
+      <details>
+        <summary>¿Qué hago si el discriminante no tiene raíz exacta?</summary>
+        <div class="body"><p>Déjala indicada. En <span class="m">x² − 3x + 1 = 0</span> sale <span class="m">Δ = 5</span>, así que <span class="m">x = (3 ± √5) / 2</span>. Es una respuesta correcta y completa; no hace falta pasarla a decimales salvo que te lo pidan.</p></div>
+      </details>
+      <details>
+        <summary>¿Y si a es negativo?</summary>
+        <div class="body"><p>Puedes aplicar la fórmula igual, o multiplicar toda la ecuación por −1 para que a quede positivo. Las soluciones son las mismas. Menos signos negativos, menos ocasiones de fallar.</p></div>
+      </details>
+      <details>
+        <summary>¿Qué significa «no tiene solución real»?</summary>
+        <div class="body"><p>Que no hay ningún número real que la cumpla. No es que te hayas equivocado: es la respuesta. Si el discriminante es negativo, escríbelo así y pasa al siguiente ejercicio.</p></div>
+      </details>
+    </section>
+
+    <!-- Seguir -->
+    <section class="sheet next" aria-labelledby="seguir">
+      <h2 id="seguir">Si quieres seguir</h2>
+      <p>Si al hacer los ejercicios te has atascado en los signos, las fracciones o el despeje, el problema suele venir de antes. El curso <strong>Aprende Matemáticas desde Cero – Fundamentos del Álgebra</strong> repasa esa base desde el principio.</p>
+      <a class="btn" href="https://cursos.frogamesformacion.com/courses/algebra-desde-cero">Ver el curso</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>Una guía de <a href="https://recursos.frogamesformacion.com/">Frogames Formación</a>, la academia online de Juan Gabriel Gomila, matemático y profesor universitario. Más de 600.000 personas han aprendido con nosotros matemáticas, programación e inteligencia artificial.</p>
+  </footer>
+</div>
+
+</body>
+</html>
